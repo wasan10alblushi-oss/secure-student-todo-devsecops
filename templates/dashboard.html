@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% block content %}
+  <h1>Welcome, {{ user.username }}</h1>
+
+  <h2>Your Tasks</h2>
+  <form method="post">
+    <input type="text" name="title" placeholder="New task..." required>
+    <button type="submit">Add</button>
+  </form>
+
+  <ul>
+    {% for task in tasks %}
+      <li>
+        <form method="post" action="{{ url_for('toggle_task', task_id=task.id) }}">
+          <button type="submit">
+            {% if task.is_done %}[✓]{% else %}[ ]{% endif %}
+          </button>
+          {{ task.title }}
+        </form>
+      </li>
+    {% else %}
+      <li>No tasks yet.</li>
+    {% endfor %}
+  </ul>
+{% endblock %}
